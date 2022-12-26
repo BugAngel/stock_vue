@@ -1,6 +1,6 @@
 <template>
     <Button type="primary" @click="getStartStar()" :loading="isGetStartStarLoading">查询</Button>
-    <Table :columns="columns" :data="data" ref="table" style = "margin-top:15px"></Table>
+    <Table :columns="columns" :data="data" ref="table" style="margin-top:15px"></Table>
     <Space class="ivu-mt" wrap>
         <Button type="primary" @click="exportData()">
             <Icon type="ios-download-outline"></Icon> 导出数据
@@ -94,7 +94,14 @@ export default {
         // 获取启明星股票数据
         async getStartStar() {
             this.isGetStartStarLoading = true;
-            let { data: res } = await this.$http.get('start_star/20221213/20221214/20221215')
+            let { data: res } = await this.$http.get(`start_star`,
+                {
+                    params: { firstDate: 20221213,
+                        secondDate: 20221214,
+                        thirdDate: 20221215
+                     }
+                }
+            );
             res = JSON.parse(res)
             let startStarData = []
             for (let item of res) {
