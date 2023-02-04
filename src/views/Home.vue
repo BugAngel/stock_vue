@@ -6,11 +6,11 @@
                     <div class="layout-nav">
                         <MenuItem name="1">
                         <Icon type="ios-navigate"></Icon>
-                        蜡烛图指标
+                        源数据
                         </MenuItem>
                         <MenuItem name="2">
                         <Icon type="ios-keypad"></Icon>
-                        Item 2
+                        蜡烛图指标
                         </MenuItem>
                         <MenuItem name="3">
                         <Icon type="ios-analytics"></Icon>
@@ -24,20 +24,20 @@
                     <Menu active-name="this.$router.history.current.path" theme="light" width="auto" :open-names="['1']">
                         <Submenu name="1">
                             <template #title>
-                                <Icon type="ios-navigate"></Icon>
-                                蜡烛图指标
+                                <Icon type="ios-keypad"></Icon>
+                                源数据
                             </template>
-                            <MenuItem name="1-1" to = "start_star">启明星</MenuItem>
+                            <MenuItem name="1-1" to = "/origin">更新源数据</MenuItem>
                             <MenuItem name="1-2">Option 2</MenuItem>
-                            <MenuItem name="1-3">Option 3</MenuItem>
                         </Submenu>
                         <Submenu name="2">
                             <template #title>
-                                <Icon type="ios-keypad"></Icon>
-                                Item 2
+                                <Icon type="ios-navigate"></Icon>
+                                蜡烛图指标
                             </template>
-                            <MenuItem name="2-1">Option 1</MenuItem>
+                            <MenuItem name="2-1" to = "/start_star">启明星</MenuItem>
                             <MenuItem name="2-2">Option 2</MenuItem>
+                            <MenuItem name="2-3">Option 3</MenuItem>
                         </Submenu>
                         <Submenu name="3">
                             <template #title>
