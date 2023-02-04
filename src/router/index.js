@@ -7,9 +7,9 @@ const routes = [
   },
   {
     path: '/home',
-    component: () => import('../components/Home.vue'),
+    component: () => import('../views/Home.vue'),
     children: [
-      { path: '/start_star', component: () => import('../components/candle/StartStar.vue') },
+      { path: '/start_star', component: () => import('../views/candle/StartStar.vue') },
     ]
   }
 ]
