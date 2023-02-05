@@ -36,7 +36,7 @@
                                 蜡烛图指标
                             </template>
                             <MenuItem name="2-1" to = "/start_star">启明星</MenuItem>
-                            <MenuItem name="2-2">Option 2</MenuItem>
+                            <MenuItem name="2-2" to = "/pre_start_star">预测启明星</MenuItem>
                             <MenuItem name="2-3">Option 3</MenuItem>
                         </Submenu>
                         <Submenu name="3">

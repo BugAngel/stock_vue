@@ -157,12 +157,12 @@ export default {
                 original: false
             });
         },
-        // 获取启明星股票数据
+        // 获取预测启明星股票数据
         async getStartStar() {
             this.isGetStartStarLoading = true;
             let begin = this.dateRange[0].replaceAll('-', '');
             let end = this.dateRange[1].replaceAll('-', '');
-            let { data: res } = await this.$http.get(`start_star/list`,
+            let { data: res } = await this.$http.get(`start_star/pre_list`,
                 {
                     params: {
                         begin: begin,
@@ -170,7 +170,6 @@ export default {
                     }
                 }
             );
-
             // 原始数据处理
             res.data.map(function(item,index,self){
                 item.amount = (item.amount / 10).toFixed(2);
