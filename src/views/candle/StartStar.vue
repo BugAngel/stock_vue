@@ -162,7 +162,7 @@ export default {
             this.isGetStartStarLoading = true;
             let begin = this.dateRange[0].replaceAll('-', '');
             let end = this.dateRange[1].replaceAll('-', '');
-            let { data: res } = await this.$http.get(`start_star/list`,
+            let { data: res } = await this.$http.get(`japan_candle/start_star_list`,
                 {
                     params: {
                         begin: begin,
