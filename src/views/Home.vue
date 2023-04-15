@@ -16,6 +16,10 @@
                         <Icon type="ios-analytics"></Icon>
                         缠论
                         </MenuItem>
+                        <MenuItem name="4" to="/investment_path">
+                        <Icon type="ios-analytics"></Icon>
+                        投资正途
+                        </MenuItem>                        
                     </div>
                 </Menu>
             </Header>
@@ -46,6 +50,13 @@
                             </template>
                             <MenuItem name="3-1" to="/rising_correction">上升回调</MenuItem>
                             <MenuItem name="3-2">Option 2</MenuItem>
+                        </Submenu>
+                        <Submenu name="4">
+                            <template #title>
+                                <Icon type="ios-analytics"></Icon>
+                                投资正途
+                            </template>
+                            <MenuItem name="4-1" to="/two_year_high">2年新高</MenuItem>
                         </Submenu>
                     </Menu>
                 </Sider>

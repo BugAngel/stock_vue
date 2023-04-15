@@ -2,17 +2,8 @@
     <DatePicker type="date" :model-value="date" placement="bottom-end" placeholder="查询日期"
         @on-change="handleDatePickerChange" style="width: 200px" />
     <br />
-    <span>日期</span>
-    <InputNumber :max="240" :min="0" :step="1" v-model="range" />
-    <span>最小斜率</span>
-    <InputNumber :max="1" :min="0" :step="0.1" v-model="minSlope" />
-    <span>最大斜率</span>
-    <InputNumber :max="10" :min="0" :step="0.1" v-model="maxSlope" />
-    <span>回调幅度</span>
-    <InputNumber :max="1" :min="0" :step="0.01" v-model="callback" />
-    <br />
-    <Button type="primary" @click="getRisingCorrection()" :loading="isGetRisingCorrectionLoading">查询</Button>
-    <Table :columns="columns" :data="risingCorrectionData" height="600" style="margin-top:15px"></Table>
+    <Button type="primary" @click="getData()" :loading="isGetDataLoading">查询</Button>
+    <Table :columns="columns" :data="data" height="600" style="margin-top:15px"></Table>
     <Space class="ivu-mt" wrap>
         <Button type="primary" @click="exportData()">
             <Icon type="ios-download-outline"></Icon> 导出数据
@@ -29,6 +20,12 @@ export default {
                     "key": "tradeDate",
                     "fixed": "left",
                     "width": 100,
+                    "sortable": true
+                },
+                {
+                    "title": "次高日期",
+                    "key": "secondHighDate",
+                    "width": 150,
                     "sortable": true
                 },
                 {
@@ -62,12 +59,8 @@ export default {
                     "sortable": true
                 }
             ],
-            risingCorrectionData: [],
-            isGetRisingCorrectionLoading: false,
-            range: 20,
-            minSlope: 0.6,
-            maxSlope: 1.7,
-            callback: 0.05,
+            data: [],
+            isGetDataLoading: false,
             date: this.$moment(new Date()).format('YYYY-MM-DD')
         }
     },
@@ -80,19 +73,15 @@ export default {
                 original: false
             });
         },
-        // 获取上升回调股票数据
-        async getRisingCorrection() {
-            this.isGetRisingCorrectionLoading = true;
+        // 获取2年新高股票数据
+        async getData() {
+            this.isGetDataLoading = true;
             let date = this.date.replaceAll('-', '');
             let queryInfo = {
-                date: date,
-                range: this.range,
-                minSlope: this.minSlope,
-                maxSlope: this.maxSlope,
-                callback: this.callback
+                date: date
             };
             console.log(queryInfo);
-            let { data: res } = await this.$http.get(`entanglement/rising_correction`,
+            let { data: res } = await this.$http.get(`investment_path/two_year_high`,
                 {
                     params: queryInfo
                 }
@@ -103,8 +92,8 @@ export default {
                 item.amount = (item.amount / 10).toFixed(2);
             })
 
-            this.risingCorrectionData = res.data;
-            this.isGetRisingCorrectionLoading = false;
+            this.data = res.data;
+            this.isGetDataLoading = false;
         },
         handleDatePickerChange(date) {
             this.date = date;

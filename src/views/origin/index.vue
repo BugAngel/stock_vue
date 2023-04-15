@@ -7,9 +7,6 @@
             <Button type="info" @click="getDaily()" :loading="isGetDailyLoading">更新每日股票数据</Button>
         </Space>
         <Space wrap>
-            <Button type="info" @click="getAvgLine()" :loading="isGetHsConstLoading">更新均线数据</Button>
-        </Space>
-        <Space wrap>
             <Button type="info" @click="getHsConst()" :loading="isGetHsConstLoading">更新沪深股通成份股数据</Button>
         </Space>
         <Space wrap>
@@ -45,7 +42,6 @@ export default {
             this.$Message.success('更新股票基础信息数据成功');
             getTradeCal();
             this.$Message.success('更新交易日历信息数据成功');
-            getAvgLine();
             this.isGetAllLoading = false;
             return this.$Message.success('全部更新成功');
         },
