@@ -2,7 +2,7 @@
     <DatePicker type="daterange" :model-value="dateRange" :options="datePickerOptions" placement="bottom-end"
         placeholder="查询日期范围" @on-change="handleDatePickerChange" style="width: 200px" />
     <Button type="primary" @click="getStartStar()" :loading="isGetStartStarLoading">查询</Button>
-    <Table :columns="columns" :data="startStarData" height="600" style="margin-top:15px"></Table>
+    <Table :columns="columns" :data="startStarData" height="600" style="margin-top:15px" ref="table"></Table>
     <Space class="ivu-mt" wrap>
         <Button type="primary" @click="exportData()">
             <Icon type="ios-download-outline"></Icon> 导出数据
@@ -153,7 +153,7 @@ export default {
     methods: {
         exportData() {
             this.$refs.table.exportCsv({
-                filename: new Date().format('yyyy-MM-dd') + '启明星数据',
+                filename: this.$moment(new Date()).format('YYYY-MM-DD') + '启明星数据',
                 original: false
             });
         },

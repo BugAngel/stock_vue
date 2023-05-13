@@ -5,7 +5,7 @@
     <span>实体占整体比例</span> <InputNumber :max="1" :min="0" :step="0.1" v-model="threshold" />
     <br/>
     <Button type="primary" @click="getHammer()" :loading="isGetHammerLoading">查询</Button>
-    <Table :columns="columns" :data="HammerData" height="600" style="margin-top:15px"></Table>
+    <Table :columns="columns" :data="HammerData" height="600" style="margin-top:15px" ref="table"></Table>
     <Space class="ivu-mt" wrap>
         <Button type="primary" @click="exportData()">
             <Icon type="ios-download-outline"></Icon> 导出数据
@@ -97,7 +97,7 @@ export default {
     methods: {
         exportData() {
             this.$refs.table.exportCsv({
-                filename: new Date().format('yyyy-MM-dd') + '锤子数据',
+                filename: this.$moment(new Date()).format('YYYY-MM-DD') + '锤子数据',
                 original: false
             });
         },

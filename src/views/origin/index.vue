@@ -1,10 +1,13 @@
 <template>
     <Space direction="vertical">
         <Space wrap>
-            <Button type="success" @click="updateAll()" :loading="isGetAllLoading" size="large">更新全部数据</Button>
+            <Button type="info" @click="updateAll()" :loading="isGetAllLoading">更新全部数据</Button>
         </Space>
         <Space wrap>
-            <Button type="info" @click="getDaily()" :loading="isGetDailyLoading">更新每日股票数据</Button>
+            <Button type="success" @click="getDaily()" :loading="isGetDailyLoading" size="large">更新每日股票数据</Button>
+        </Space>
+        <Space wrap>
+            <Button type="success" @click="getHfqDaily()" :loading="isGetHfqDailyLoading" size="large">更新每日股票后复权数据</Button>
         </Space>
         <Space wrap>
             <Button type="info" @click="getHsConst()" :loading="isGetHsConstLoading">更新沪深股通成份股数据</Button>
@@ -23,6 +26,7 @@ export default {
         return {
             isGetAllLoading: false,
             isGetDailyLoading: false,
+            isGetHfqDailyLoading: false,
             isGetHsConstLoading: false,
             isGetStockBasicLoading: false,
             isGetTradeCalLoading: false,
@@ -34,13 +38,15 @@ export default {
         // 更新全部数据
         updateAll() {
             this.isGetAllLoading = true;
-            getDaily();
+            this.getDaily();
             this.$Message.success('更新每日数据成功');
-            getHsConst();
+            this.getHfqDaily();
+            this.$Message.success('更新每日后复权数据成功');
+            this.getHsConst();
             this.$Message.success('更新沪深股通成份股数据成功');
-            getStockBasic();
+            this.getStockBasic();
             this.$Message.success('更新股票基础信息数据成功');
-            getTradeCal();
+            this.getTradeCal();
             this.$Message.success('更新交易日历信息数据成功');
             this.isGetAllLoading = false;
             return this.$Message.success('全部更新成功');
@@ -50,6 +56,17 @@ export default {
             this.isGetDailyLoading = true;
             let { data: res } = await this.$http.get(`/origin/daily`);
             this.isGetDailyLoading = false;
+            if (res.status !== 200) {
+                return this.$Message.error(res.msg);
+            } else {
+                return this.$Message.success(res.msg);
+            }
+        },
+        // 更新每日后复权股票数据
+        async getHfqDaily() {
+            this.isGetHfqDailyLoading = true;
+            let { data: res } = await this.$http.get(`/origin/get_hfq_daily`);
+            this.isGetHfqDailyLoading = false;
             if (res.status !== 200) {
                 return this.$Message.error(res.msg);
             } else {

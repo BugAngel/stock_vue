@@ -12,7 +12,7 @@
     <InputNumber :max="1" :min="0" :step="0.01" v-model="callback" />
     <br />
     <Button type="primary" @click="getRisingCorrection()" :loading="isGetRisingCorrectionLoading">查询</Button>
-    <Table :columns="columns" :data="risingCorrectionData" height="600" style="margin-top:15px"></Table>
+    <Table :columns="columns" :data="risingCorrectionData" height="600" style="margin-top:15px" ref="table"></Table>
     <Space class="ivu-mt" wrap>
         <Button type="primary" @click="exportData()">
             <Icon type="ios-download-outline"></Icon> 导出数据
@@ -76,7 +76,7 @@ export default {
     methods: {
         exportData() {
             this.$refs.table.exportCsv({
-                filename: new Date().format('yyyy-MM-dd') + '上升回调数据',
+                filename: this.$moment(new Date()).format('YYYY-MM-DD') + '上升回调数据',
                 original: false
             });
         },

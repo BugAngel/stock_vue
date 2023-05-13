@@ -32,7 +32,7 @@
                                 源数据
                             </template>
                             <MenuItem name="1-1" to="/origin">更新源数据</MenuItem>
-                            <MenuItem name="1-2">Option 2</MenuItem>
+                            <MenuItem name="1-2">行情概览(不可用)</MenuItem>
                         </Submenu>
                         <Submenu name="2">
                             <template #title>
@@ -49,7 +49,9 @@
                                 缠论指标
                             </template>
                             <MenuItem name="3-1" to="/rising_correction">上升回调</MenuItem>
-                            <MenuItem name="3-2">Option 2</MenuItem>
+                            <MenuItem name="3-2">第一类买点(不可用)</MenuItem>
+                            <MenuItem name="3-3">第二类买点(不可用)</MenuItem>
+                            <MenuItem name="3-4">第三类买点(不可用)</MenuItem>
                         </Submenu>
                         <Submenu name="4">
                             <template #title>
@@ -105,7 +107,7 @@ export default {
 }
 
 .layout-nav {
-    width: 420px;
+    width: 560px;
     margin: 0 auto;
     margin-right: 20px;
 }
