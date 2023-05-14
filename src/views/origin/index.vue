@@ -10,6 +10,9 @@
             <Button type="success" @click="getHfqDaily()" :loading="isGetHfqDailyLoading" size="large">更新每日股票后复权数据</Button>
         </Space>
         <Space wrap>
+            <Button type="success" @click="getShIndex()" :loading="isGetShDailyLoading" size="large">更新上证指数</Button>
+        </Space>
+        <Space wrap>
             <Button type="info" @click="getHsConst()" :loading="isGetHsConstLoading">更新沪深股通成份股数据</Button>
         </Space>
         <Space wrap>
@@ -27,6 +30,7 @@ export default {
             isGetAllLoading: false,
             isGetDailyLoading: false,
             isGetHfqDailyLoading: false,
+            isGetShDailyLoading: false,
             isGetHsConstLoading: false,
             isGetStockBasicLoading: false,
             isGetTradeCalLoading: false,
@@ -42,6 +46,8 @@ export default {
             this.$Message.success('更新每日数据成功');
             this.getHfqDaily();
             this.$Message.success('更新每日后复权数据成功');
+            this.getShIndex();
+            this.$Message.success('更新上证指数成功');
             this.getHsConst();
             this.$Message.success('更新沪深股通成份股数据成功');
             this.getStockBasic();
@@ -67,6 +73,17 @@ export default {
             this.isGetHfqDailyLoading = true;
             let { data: res } = await this.$http.get(`/origin/get_hfq_daily`);
             this.isGetHfqDailyLoading = false;
+            if (res.status !== 200) {
+                return this.$Message.error(res.msg);
+            } else {
+                return this.$Message.success(res.msg);
+            }
+        },
+        // 更新上证指数
+        async getShIndex() {
+            this.isGetShDailyLoading = true;
+            let { data: res } = await this.$http.get(`/origin/sh_index`);
+            this.isGetShDailyLoading = false;
             if (res.status !== 200) {
                 return this.$Message.error(res.msg);
             } else {
