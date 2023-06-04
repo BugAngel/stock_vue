@@ -12,17 +12,29 @@
     <InputNumber :max="1" :min="0" :step="0.01" v-model="callback" />
     <br />
     <Button type="primary" @click="getRisingCorrection()" :loading="isGetRisingCorrectionLoading">查询</Button>
-    <Table :columns="columns" :data="risingCorrectionData" height="600" style="margin-top:15px" ref="table"></Table>
+    <Table :columns="columns" :data="risingCorrectionData" height="600" style="margin-top:15px" ref="table">
+        <template #action="{ row, index }">
+            <Button type="primary" style="margin-right: 5px" @click="show(index)">看图</Button>
+        </template>
+    </Table>
     <Space class="ivu-mt" wrap>
         <Button type="primary" @click="exportData()">
             <Icon type="ios-download-outline"></Icon> 导出数据
         </Button>
     </Space>
+    <Modal v-model="modal1" draggable :mask="false" title="图" width="600px">
+        <SpreadChart tsCode="000671.SZ" date="20230602"></SpreadChart>
+    </Modal>
 </template>
 <script>
+import SpreadChart from '@/components/SpreadChart.vue';
+
 export default {
+    components: { SpreadChart },
     data() {
         return {
+            // tscode: '000671.SH',
+            // date: '20230602',
             columns: [
                 {
                     "title": "交易日期",
@@ -60,30 +72,35 @@ export default {
                     "key": "close",
                     "width": 150,
                     "sortable": true
+                },
+                {
+                    "title": "图形",
+                    slot: 'action',
                 }
             ],
             risingCorrectionData: [],
             isGetRisingCorrectionLoading: false,
-            range: 20,
-            minSlope: 0.6,
-            maxSlope: 1.7,
-            callback: 0.05,
-            date: this.$moment(new Date()).format('YYYY-MM-DD')
-        }
+            range: 5,
+            minSlope: 0.3,
+            maxSlope: 10,
+            callback: 0,
+            modal1: false,
+            date: this.$moment(new Date()).format("YYYY-MM-DD")
+        };
     },
     created() {
     },
     methods: {
         exportData() {
             this.$refs.table.exportCsv({
-                filename: this.$moment(new Date()).format('YYYY-MM-DD') + '上升回调数据',
+                filename: this.$moment(new Date()).format("YYYY-MM-DD") + "上升回调数据",
                 original: false
             });
         },
         // 获取上升回调股票数据
         async getRisingCorrection() {
             this.isGetRisingCorrectionLoading = true;
-            let date = this.date.replaceAll('-', '');
+            let date = this.date.replaceAll("-", "");
             let queryInfo = {
                 date: date,
                 range: this.range,
@@ -92,24 +109,25 @@ export default {
                 callback: this.callback
             };
             console.log(queryInfo);
-            let { data: res } = await this.$http.get(`entanglement/rising_correction`,
-                {
-                    params: queryInfo
-                }
-            );
-
+            let { data: res } = await this.$http.get(`entanglement/rising_correction`, {
+                params: queryInfo
+            });
             // 原始数据处理
             res.data.map(function (item, index, self) {
                 item.amount = (item.amount / 10).toFixed(2);
-            })
-
+            });
             this.risingCorrectionData = res.data;
             this.isGetRisingCorrectionLoading = false;
+        },
+        // 看股票图
+        show(index) {
+            this.modal1 = true;
         },
         handleDatePickerChange(date) {
             this.date = date;
         }
-    }
+    },
+  
 }
 </script>
 

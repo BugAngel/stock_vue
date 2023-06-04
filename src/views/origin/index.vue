@@ -1,16 +1,16 @@
 <template>
     <Space direction="vertical">
         <Space wrap>
-            <Button type="info" @click="updateAll()" :loading="isGetAllLoading">更新全部数据</Button>
+            <Button type="success" @click="updateAll()" :loading="isGetAllLoading" size="large">更新全部数据</Button>
         </Space>
         <Space wrap>
-            <Button type="success" @click="getDaily()" :loading="isGetDailyLoading" size="large">更新每日股票数据</Button>
+            <Button type="info" @click="getDaily()" :loading="isGetDailyLoading">更新每日股票数据</Button>
         </Space>
-        <Space wrap>
+        <!-- <Space wrap>
             <Button type="success" @click="getHfqDaily()" :loading="isGetHfqDailyLoading" size="large">更新每日股票后复权数据</Button>
-        </Space>
+        </Space> -->
         <Space wrap>
-            <Button type="success" @click="getShIndex()" :loading="isGetShDailyLoading" size="large">更新上证指数</Button>
+            <Button type="info" @click="getShIndex()" :loading="isGetShDailyLoading">更新上证指数</Button>
         </Space>
         <Space wrap>
             <Button type="info" @click="getHsConst()" :loading="isGetHsConstLoading">更新沪深股通成份股数据</Button>
@@ -44,8 +44,8 @@ export default {
             this.isGetAllLoading = true;
             this.getDaily();
             this.$Message.success('更新每日数据成功');
-            this.getHfqDaily();
-            this.$Message.success('更新每日后复权数据成功');
+            // this.getHfqDaily();
+            // this.$Message.success('更新每日后复权数据成功');
             this.getShIndex();
             this.$Message.success('更新上证指数成功');
             this.getHsConst();
@@ -68,17 +68,17 @@ export default {
                 return this.$Message.success(res.msg);
             }
         },
-        // 更新每日后复权股票数据
-        async getHfqDaily() {
-            this.isGetHfqDailyLoading = true;
-            let { data: res } = await this.$http.get(`/origin/get_hfq_daily`);
-            this.isGetHfqDailyLoading = false;
-            if (res.status !== 200) {
-                return this.$Message.error(res.msg);
-            } else {
-                return this.$Message.success(res.msg);
-            }
-        },
+        // // 更新每日后复权股票数据
+        // async getHfqDaily() {
+        //     this.isGetHfqDailyLoading = true;
+        //     let { data: res } = await this.$http.get(`/origin/get_hfq_daily`);
+        //     this.isGetHfqDailyLoading = false;
+        //     if (res.status !== 200) {
+        //         return this.$Message.error(res.msg);
+        //     } else {
+        //         return this.$Message.success(res.msg);
+        //     }
+        // },
         // 更新上证指数
         async getShIndex() {
             this.isGetShDailyLoading = true;
@@ -123,17 +123,17 @@ export default {
                 return this.$Message.success(res.msg);
             }
         },
-        // 更新均线数据
-        async getAvgLine() {
-            this.isGetAvgLineLoading = true;
-            let { data: res } = await this.$http.get(`/avg_line/update_all_recent`);
-            this.isGetAvgLineLoading = false;
-            if (res.status !== 200) {
-                return this.$Message.error(res.msg);
-            } else {
-                return this.$Message.success(res.msg);
-            }
-        }
+        // // 更新均线数据
+        // async getAvgLine() {
+        //     this.isGetAvgLineLoading = true;
+        //     let { data: res } = await this.$http.get(`/avg_line/update_all_recent`);
+        //     this.isGetAvgLineLoading = false;
+        //     if (res.status !== 200) {
+        //         return this.$Message.error(res.msg);
+        //     } else {
+        //         return this.$Message.success(res.msg);
+        //     }
+        // }
     }
 }
 </script>

@@ -32,7 +32,7 @@
                                 源数据
                             </template>
                             <MenuItem name="1-1" to="/origin">更新源数据</MenuItem>
-                            <MenuItem name="1-2">行情概览(不可用)</MenuItem>
+                            <MenuItem name="1-2" to="/show">行情概览</MenuItem>
                         </Submenu>
                         <Submenu name="2">
                             <template #title>
