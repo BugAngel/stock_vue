@@ -41,21 +41,12 @@ export default {
     methods: {
         // 更新全部数据
         updateAll() {
-            this.isGetAllLoading = true;
             this.getDaily();
-            this.$Message.success('更新每日数据成功');
             // this.getHfqDaily();
-            // this.$Message.success('更新每日后复权数据成功');
             this.getShIndex();
-            this.$Message.success('更新上证指数成功');
             this.getHsConst();
-            this.$Message.success('更新沪深股通成份股数据成功');
             this.getStockBasic();
-            this.$Message.success('更新股票基础信息数据成功');
             this.getTradeCal();
-            this.$Message.success('更新交易日历信息数据成功');
-            this.isGetAllLoading = false;
-            return this.$Message.success('全部更新成功');
         },
         // 更新每日股票数据
         async getDaily() {

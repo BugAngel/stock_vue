@@ -74,25 +74,7 @@ export default {
                     "key": "pctChg",
                     "width": 150,
                     "sortable": true
-                },
-                {
-                    "title": "次高日期",
-                    "key": "secondHighDate",
-                    "width": 150,
-                    "sortable": true
-                },
-                {
-                    "title": "次高价格",
-                    "key": "secondHighClose",
-                    "width": 150,
-                    "sortable": true
-                },
-                {
-                    "title": "与次高价格相比涨幅/%",
-                    "key": "secondHighChg",
-                    "width": 200,
-                    "sortable": true
-                },
+                }
             ],
             columns2: [
                 {
@@ -178,7 +160,6 @@ export default {
             // 原始数据处理
             res.data.map(function (item, index, self) {
                 item.amount = (item.amount / 10).toFixed(2);
-                item.secondHighChg = ((item.close - item.secondHighClose) / item.secondHighClose * 100.0).toFixed(2)
             })
 
             this.data = res.data;

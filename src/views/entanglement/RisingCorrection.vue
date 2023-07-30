@@ -22,8 +22,8 @@
             <Icon type="ios-download-outline"></Icon> 导出数据
         </Button>
     </Space>
-    <Modal v-model="modal1" draggable :mask="false" title="图" width="600px">
-        <SpreadChart tsCode="000671.SZ" date="20230602"></SpreadChart>
+    <Modal v-model="modal1" draggable :mask="false" title="图" width="1100px">
+        <SpreadChart tsCode="000671.SZ" date="20230602" ref="spreadchart"></SpreadChart>
     </Modal>
 </template>
 <script>
@@ -52,6 +52,12 @@ export default {
                 {
                     "title": "股票名称",
                     "key": "name",
+                    "width": 150,
+                    "sortable": true
+                },
+                {
+                    "title": "市场类型",
+                    "key": "market",
                     "width": 150,
                     "sortable": true
                 },
@@ -122,6 +128,7 @@ export default {
         // 看股票图
         show(index) {
             this.modal1 = true;
+            this.$refs.spreadchart.getData();
         },
         handleDatePickerChange(date) {
             this.date = date;

@@ -10,15 +10,16 @@ export default {
     emits: ['updateTsCode', 'updateDate'],
     data() {
         return {
-            sz:[],
-            szdata:[],
-            tradeDate:[],
+            shData: [],
+            stockData: [],
+            tradeDate1: [],
             option: {
                 title: {
                     text: '图形'
                 },
                 tooltip: {
-                    trigger: 'axis'
+                    trigger: 'axis',
+                    show: true
                 },
                 legend: {
                     data: ['上证指数', '股票价格指数']
@@ -36,27 +37,32 @@ export default {
                 },
                 xAxis: {
                     type: 'category',
-                    boundaryGap: false,
-                    data: this.tradeDate
+                    nameLocation: 'middle',
+                    data: [],
                 },
                 yAxis: {
-                    type: 'value'
+                    type: 'value',
+                    // min:-1000
                 },
                 series: [
                     {
-                        name: '上证指数',
-                        type: 'line',
-                        stack: 'Total',
-                        data: this.sz
-                    },
-                    {
                         name: '股票价格指数',
                         type: 'line',
-                        stack: 'Total',
-                        data: [220, 182, 191, 234, 290, 330, 310]
-                    }
+                        // stack: 'Total',
+                        data: [],
+                        label: { normal: { show: true } }
+                    },
+                    {
+                        name: '上证指数',
+                        type: 'line',
+                        // stack: 'Total',
+                        data: [],
+                        label: { normal: { show: true } }
+                    },
+
                 ]
             },
+            chart: ''
             // tsCode:'',
             // date: ''
         }
@@ -71,14 +77,30 @@ export default {
     //     date: String
     // },
     mounted() {
-        let chart = this.$echarts.init(document.getElementById('union'), null, {
-            width: 600,
+        this.chart = this.$echarts.init(document.getElementById('union'), null, {
+            width: 1000,
             height: 400
         });
         // console.log(this.tsCode)
-        this.option && chart.setOption(this.option);
+        this.option && this.chart.setOption(this.option);
     },
     methods: {
+        //比较函数
+        sortBy(property, asc) {
+            return function (value1, value2) {
+                let a = value1[property]
+                let b = value2[property]
+                // 默认升序
+                if (asc == undefined) {
+                    return a - b
+                } else {
+                    return asc ? a - b : b - a
+                }
+            }
+        },
+
+
+
         // 获取股票数据
         async getData() {
             console.log(this.tsCode)
@@ -91,38 +113,31 @@ export default {
                 end: end,
                 ts_code: this.tsCode
             };
-            console.log(queryInfo)
 
             // 获取指定股票2年数据
-            // let { data: stock } = await this.$http.get(`stock_daily/daily_info`, { params: queryInfo });
-
-            // console.log(stock)
-
-            // // 获取近2年上证指数
-            let sh = await this.$http.get(`stock_daily/sh_info`, { params: queryInfo });
-            this.szdata = sh.data.data
-            console.log(this.szdata)
-          
-            this.szdata.forEach(item => {
-                this.sz.push(item.close)
-                this.tradeDate.push(item.tradeDate)
-
+            let stockOrigin = await this.$http.get(`stock_daily/daily_info`, { params: queryInfo });
+            //取出数据对象并排序
+            let stockSorted = stockOrigin.data.data.sort(this.sortBy('tradeDate', true));
+            //遍历得到数据数组和时间数组
+            stockSorted.forEach(item => {
+                this.stockData.push(item.close)
+                this.tradeDate1.push(item.tradeDate)
+            })
+            //获取近2年上证指数
+            let shOrigin = await this.$http.get(`stock_daily/sh_info`, { params: queryInfo });
+            //取出数据对象并排序
+            let shSorted = shOrigin.data.data.sort(this.sortBy('tradeDate', true));
+            //遍历获得和指定股票指数日期对应的上证指数
+            this.tradeDate1.forEach(item => {
+                this.shData.push(shSorted.find(o => o.tradeDate === item).close)
             })
 
-            console.log(this.sz)
+            this.option.xAxis.data = this.tradeDate1;
+            this.option.series[0].data = this.stockData;
+            this.option.series[1].data = this.shData;
+            console.log(this.option)
+            this.option && this.chart.setOption(this.option);
 
-            console.log(this.tradeDate)
-
-
-
-
-
-            // // 获取指定股票2年数据
-            // let { data: stock } = await this.$http.get(`stock_daily/daily_info`, { params: queryInfo });
-            // // 获取近2年上证指数
-            // let { data: sh } = await this.$http.get(`origin/sh_index`);
-        //     this.$emit('updateTsCode', this.tsCode);
-        //     this.$emit('updateDate', this.date);
         }
     }
 }
